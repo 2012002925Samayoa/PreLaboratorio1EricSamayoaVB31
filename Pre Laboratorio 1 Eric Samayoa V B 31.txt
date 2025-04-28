@@ -1,0 +1,347 @@
+1)   Conversión del Modelo ER a código SQL
+
+create database prelab1; Se usa para crear la base de datos
+
+use prelab1; Indicamos que se usará la base de datos antes mencionada
+
+ 
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla dirección
+
+create table direccion(  
+
+idDireccion INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Direccion VARCHAR (45),  Los valores serán caractéres
+
+    Ciudad VARCHAR (45),
+
+    Pais VARCHAR (45)
+
+);
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla dirección
+
+CREATE TABLE cliente (
+
+    idCliente INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Nombre VARCHAR(45), Los valores serán caractéres
+
+    Apellido VARCHAR(45),
+
+    Edad INT(11),
+
+    Direccion_idDireccion INT(11),
+
+    FOREIGN KEY (Direccion_idDireccion) REFERENCES direccion(idDireccion) La tabla cliente se relaciona con la tabla dirección y la llave foránea asegura que cada cliente tenga una dirección válida registrada en la tabla dirección.
+
+ 
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla categoría
+
+CREATE TABLE categoria (
+
+    idCategoria INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Nombre VARCHAR(45) Los valores serán caractéres
+
+);
+
+ 
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla películas
+
+CREATE TABLE peliculas (
+
+    idPeliculas INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Nombre VARCHAR(45), Los valores serán caractéres
+
+    Duracion INT(11),
+
+    Descripcion TEXT,
+
+    Año INT(11),
+
+    Categoria_idCategoria INT(11),
+
+    FOREIGN KEY (Categoria_idCategoria) REFERENCES categoria(idCategoria) La tabla películas se relaciona con la tabla Categoría y la llave foránea asegura que cada cliente tenga una dirección válida registrada en la tabla categoría.
+
+);
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla inventario
+
+CREATE TABLE inventario (
+
+    idCopiasPeliculas INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Peliculas_idPeliculas INT(11),
+
+    Disponible TINYINT(1),
+
+    FOREIGN KEY (Peliculas_idPeliculas) REFERENCES peliculas(idPeliculas) La tabla Inventario se relaciona con la tabla Películas y la llave foránea asegura que cada cliente tenga una dirección válida registrada en la tabla películas.
+
+);
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla renta
+
+CREATE TABLE renta (
+
+    idRenta INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Fecha_Renta DATE, Los valores serán expresados en números dados en una fecha
+
+    Fecha_Entrega DATE,
+
+    Inventario_idCopiasPeliculas INT(11),
+
+    Cliente_idCliente INT(11),
+
+    FOREIGN KEY (Inventario_idCopiasPeliculas) REFERENCES inventario(idCopiasPeliculas), La tabla renta se relaciona con la tabla inventario y la llave foránea asegura que cada cliente tenga una dirección válida registrada en la tabla renta.
+
+    FOREIGN KEY (Cliente_idCliente) REFERENCES cliente(idCliente)
+
+);
+
+ 
+
+En esta parte ingresamos todos los valores antes creados a la tabla dirección
+
+INSERT INTO direccion (idDireccion, Direccion, Ciudad, Pais) 
+
+VALUES
+
+(1, 'Naranjo Mall', 'Ciudad de Guatemala', 'Guatemala'),
+
+(2, 'Centro Comercial de la Zona 4', 'Ciudad de Guatemala', 'Guatemala'),
+
+(3, 'Cnetro Comercial " Las Américas "', 'Ciudad de Guatemala', 'Guatemala'),
+
+(4, 'Miraflores', 'Ciudad de Guatemala', 'Guatemala'),
+
+(5, 'Oakland Mall', 'Ciudad de Guatemala', 'Guatemala');
+
+ 
+
+ 
+
+En esta parte ingresamos todos los valores antes creados a la tabla cliente
+
+INSERT INTO cliente (idCliente, Nombre, Apellido, Edad, Direccion_idDireccion)
+
+VALUES
+
+(1, 'Eric', 'Samayoa', 17, 1),
+
+(2, 'Nicolle', 'Molina',18  ,2 ),
+
+(3, 'Jose', 'lozano', 17, 3),
+
+(4, 'Miguel', 'Rodríguez', 17, 4),
+
+(5, 'Juliana', 'Ovalle', 20, 5);
+
+ 
+
+En esta parte ingresamos todos los valores antes creados a la tabla categoría
+
+INSERT INTO categoria (idCategoria, Nombre)
+
+VALUES
+
+(1, 'Acción'),
+
+(2, 'Terror'),
+
+(3, 'Infantil'),
+
+(4, 'Ciencia Ficción'),
+
+(5, 'Drama');
+
+ 
+
+En esta parte ingresamos todos los valores antes creados a la tabla películas
+
+INSERT INTO peliculas (idPeliculas, Nombre, Duracion, Descripcion, Año, Categoria_idCategoria)
+
+VALUES
+
+(1, 'Pokemon1', 68, ' Ash y sus amigos enfrentan a Mewtwo, un poderoso Pokémon creado por humanos que busca vengarse.', 1998, 1),
+
+(2, 'El Conjuro', 120, 'Basada en hechos reales, unos investigadores paranormales ayudan a una familia acosada por una presencia oscura en su casa.', 2013, 2),
+
+(3, 'Toy Story', 150, 'Juguetes con vida propia deben afrontar la llegada de un nuevo y moderno juguete que amenaza su lugar favorito.', 1972, 3),
+
+(4, 'Blade Runner', 60, 'Un cazador de androides debe encontrar y "retirar" a replicantes que se han infiltrado en la Tierra.', 1982, 4),
+
+(5, 'Forrest Gump', 85, 'Un adolescente viaja accidentalmente en el tiempo y debe asegurarse de que sus padres se enamoren.', 1994, 5);
+
+ 
+
+En esta parte ingresamos todos los valores antes creados a la tabla inventario
+
+INSERT INTO inventario (idCopiasPeliculas, Peliculas_idPeliculas, Disponible) 
+
+VALUES
+
+(1, 1, 1),
+
+(2, 2, 0),
+
+(3, 3, 1),
+
+(4, 4, 1),
+
+(5, 5, 0);
+
+ 
+
+En esta parte ingresamos todos los valores antes creados a la tabla renta
+
+INSERT INTO renta (idRenta, Fecha_Renta, Fecha_Entrega, Inventario_idCopiasPelicuLas, Cliente_idCliente)
+
+VALUES
+
+(1, '2025-01-20', '2025-01-22', 2, 1),
+
+(2, '2025-02-14', '2025-02-17', 5, 2),
+
+(3, '2025-03-07', '2025-03-12', 2, 3),
+
+(4, '2025-04-17', '2025-04-27', 5, 4),
+
+(5, '2025-05-15', '2025-05-19', 2, 5);
+
+ 
+
+ 
+
+Esto sirve para poder ejecutar la tabla dirección
+
+SELECT * FROM direccion;
+
+Esto sirve para poder ejecutar la tabla cliente
+
+SELECT * FROM cliente;
+
+Esto sirve para poder ejecutar la tabla categoria
+
+SELECT * FROM categoria;
+
+Esto sirve para poder ejecutar la tabla películas
+
+SELECT * FROM peliculas;
+
+Esto sirve para poder ejecutar la tabla inventario
+
+SELECT * FROM inventario;
+
+Esto sirve para poder ejecutar la tabla renta
+
+SELECT * FROM renta;
+
+ 
+
+SELECT * FROM cliente WHERE Nombre = 'Juliana'; Selecciona la tabla de clientes, donde este el campo Nombre y donde exista el nombre Juliana
+
+ 
+
+DELETE FROM peliculas WHERE Nombre = 'Pokemon1'; Eliminara la película Pokemon1 proveniente del campo Nombre y de la tabla películas
+
+ 
+
+ 
+
+SELECT * FROM categoria ORDER BY Nombre ASC; Ordenara los datos del campo Nombre en orden ascendente de la tabla categoría
+
+ 
+
+SELECT * FROM peliculas ORDER BY Año DESC; Ordenara los datos del campo Año en orden descendiente de la tabla películas
+
+ 
+
+ 
+
+ 
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla renta
+
+CREATE TABLE empleadosss ( 
+
+         idEmpleados INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Nombre VARCHAR(45), Los valores serán caractéres
+
+    Apellido VARCHAR(45),
+
+    Edad INT(11),
+
+    Puesto VARCHAR(50)
+
+);
+
+ 
+
+En esta parte ingresamos todos los valores antes creados a la tabla empleadosss
+
+INSERT INTO empleadosss (idEmpleados, Nombre, Apellido, Edad, Puesto) 
+
+VALUES
+
+(1, 'Eric ', 'Samayoa', 20, 'Vendedor'),
+
+(2, 'Javier', 'Zuleta', 24, 'Encargado de Limpieza'),
+
+(3, 'Luis ', 'Orozco', 34, 'Jefe de Agencia'),
+
+(4, 'Victor ', 'Aquino', 32, 'Encargado de Seguridad'),
+
+(5, 'Diego ', 'Albizuris', 18, 'Vendedor');
+
+ 
+
+En esta parte creamos e indicamos los campos a ingresar en la tabla calificacion
+
+CREATE TABLE califiacion ( 
+
+         idCalificacion INT(11) PRIMARY KEY, Los valores serán números enteros, es la clave primaria de la tabla.
+
+    Nombre VARCHAR(45),
+
+    Calificacion VARCHAR(45), Los valores serán caractéres
+
+    Comentario VARCHAR(50),
+
+    Sugerencias VARCHAR(50)
+
+);
+
+En esta parte ingresamos todos los valores antes creados a la tabla calificacion
+
+INSERT INTO califiacion (idCalificacion, Nombre, Calificacion, Comentario, Sugerencias) 
+
+VALUES
+
+(1, 'Byron Samayoa ', 'Seis estrella','Atención regular' , 'Mejorar el servicio al cliente '),
+
+(2, 'Camila Recinos', 'Ocho estrellas', 'Buena calidad de Películas', 'Tener más películas disponibles'),
+
+(3, 'Derek Lopez', 'Diez estrellas', 'Excelente atención', 'Recomendo mucho esta tienda'),
+
+(4, 'Christ Flores ', 'Cinco estrellas', 'Pésimo servicio', 'No tener costos tan altos en las películas'),
+
+(5, 'Marian Molina', 'Diez estrellas', 'Muy buena atención', 'Excelente tienda, muy aprobada');
+
+ 
+
+ 
+
+Esto sirve para poder ejecutar la tabla empleadosss
+
+SELECT * FROM empleadosss;
+
+Esto sirve para poder ejecutar la tabla calificacion
+
+SELECT * FROM calificacion; 
